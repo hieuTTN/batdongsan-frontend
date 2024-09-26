@@ -8,7 +8,12 @@ function Header({ children }){
 
      // Function to check if the current path matches the given pathname
      const isActive = (pathname) => {
-         return location.pathname === pathname ? 'activenavbar' : '';
+         for(var i=0; i<pathname.length; i++){
+            if(location.pathname === pathname[i]){
+                return 'activenavbar';
+            }
+         }
+         return '';
      };
      
     const [isCssLoaded, setCssLoaded] = useState(false);
@@ -38,7 +43,7 @@ function Header({ children }){
                         <i class="fa fa-home"></i> Trang chủ
                     </a>
                 </li>
-                <li className={isActive("/admin/user")}>
+                <li className={isActive(["/admin/user"])}>
                     <a href="#coltaikhoan" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white text-decoration-none">
                         <i class="fa fa-user"></i> Tài khoản
                     </a>
@@ -51,20 +56,20 @@ function Header({ children }){
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
+                <li className={isActive(["/admin/blog", "/admin/add-blog"])}>
                     <a href="#colbaiviet" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white text-decoration-none">
                         <i class="fa fa-newspaper"></i> Bài viết
                     </a>
                     <ul class="collapse list-unstyleds" id="colbaiviet">
                         <li class="nav-item">
-                            <a href="#" class="text-white text-decoration-none ps-4"><i class="fa fa-list"></i> Danh sách tin đăng</a>
+                            <a href="blog" class="text-white text-decoration-none ps-4"><i class="fa fa-list"></i> Danh sách tin đăng</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="text-white text-decoration-none ps-4"><i class="fa fa-plus"></i> Thêm bài viết</a>
+                            <a href="add-blog" class="text-white text-decoration-none ps-4"><i class="fa fa-plus"></i> Thêm bài viết</a>
                         </li>
                     </ul>
                 </li>
-                <li className={isActive("/admin/category")}>
+                <li className={isActive(["/admin/category"])}>
                     <a href="category" class="text-white text-decoration-none">
                         <i class="fa fa-list"></i> Danh mục
                     </a>
