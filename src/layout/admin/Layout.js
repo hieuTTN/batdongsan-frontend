@@ -87,21 +87,26 @@ function Header({ children }){
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
+                <li className={isActive(["/admin/history-pay", "/admin/deduction-history","/admin/statistic"])}>
                     <a href="#dashboardSubmenu1" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white text-decoration-none">
                         <i class="fa-solid fa-chart-line"></i> Thống kê
                     </a>
                     <ul class="collapse list-unstyleds" id="dashboardSubmenu1">
                         <li class="nav-item">
-                            <a href="#" class="text-white text-decoration-none ps-4"><i class="fa fa-clock"></i> Lịch sử nạp tiền</a>
+                            <a href="history-pay" class="text-white text-decoration-none ps-4"><i class="fa fa-clock"></i> Lịch sử nạp tiền</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="text-white text-decoration-none ps-4"><i class="fa fa-clock"></i> Lịch sử trừ tiền</a>
+                            <a href="deduction-history" class="text-white text-decoration-none ps-4"><i class="fa fa-clock"></i> Lịch sử trừ tiền</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="text-white text-decoration-none ps-4"><i class="fa fa-chart-line"></i> Doanh thu năm</a>
+                            <a href="statistic" class="text-white text-decoration-none ps-4"><i class="fa fa-chart-line"></i> Doanh thu năm</a>
                         </li>
                     </ul>
+                </li>
+                <li>
+                    <a href="#eCommerce" class="text-white text-decoration-none">
+                        <i class="fa fa-flag"></i> Báo cáo
+                    </a>
                 </li>
                 <li>
                     <a href="#eCommerce" class="text-white text-decoration-none">

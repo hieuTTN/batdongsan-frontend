@@ -7,6 +7,8 @@ import userAdmin from '../pages/admin/user'
 import AdminCategory from '../pages/admin/category'
 import AdminBlog from '../pages/admin/blog'
 import AdminAddBlog from '../pages/admin/addblog'
+import AdminHistoryPay from '../pages/admin/historypay'
+import AdminDeductionHistory from '../pages/admin/deductionhistory'
 
 
 
@@ -36,6 +38,8 @@ const adminRoutes = [
     { path: "/admin/category", component: AdminCategory, layout: layoutAdmin },
     { path: "/admin/blog", component: AdminBlog, layout: layoutAdmin },
     { path: "/admin/add-blog", component: AdminAddBlog, layout: layoutAdmin },
+    { path: "/admin/history-pay", component: AdminHistoryPay, layout: layoutAdmin },
+    { path: "/admin/deduction-history", component: AdminDeductionHistory, layout: layoutAdmin },
 ];
 
 
