@@ -1156,8 +1156,8 @@
 }
 .thongtintaikhoan{
     color: #000;
-    padding-top:10px;
-    margin-bottom: 20px;
+    padding-top:0px;
+    margin-bottom: 10px;
 }
 .usertaikhoan{
     aspect-ratio : 1 / 1;
@@ -1370,4 +1370,58 @@
 }
 #thanhcong a{
     margin-top: 15px;
+}
+
+.btntable{
+    background-color: #007bff !important;
+    width: 100%;
+}
+
+@keyframes barWidth {
+    0%   {width: 0%;}
+    25%  {width: 50%;}
+    50%  {width: 100%;}
+    75%  {width: 50%;}
+    100% {width: 0%;}
+  }
+  @keyframes barWidth2 {
+    0%   {width: 0%;}
+    50%  {width: 50%;}
+    100% {width: 100%;}
+  }
+  #loading {
+    margin-top: 20px;
+    height: 4px;
+    width: 100%;
+    display: none;
+  }
+  
+  .bar {
+    position: relative;
+    width: 0%;
+    height: 100%;
+    margin: 0 auto;
+    animation: barWidth;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+  
+  .bar1 {
+    animation-delay: 0s;
+    background: #02a09a;
+    top: 0;
+    z-index: 1;
+  }
+.toptttk{
+    position: relative;
+}
+.toptttk i{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+}
+.hiddensidebar{
+    display: none !important;
 }

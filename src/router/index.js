@@ -25,6 +25,8 @@ import BaoGia from '../pages/user/baogia'
 import NapTien from '../pages/user/naptien'
 import ThanhCong from '../pages/user/thanhcong'
 import LichSuNap from '../pages/user/lichsunap'
+import LichSuTru from '../pages/user/lichsutru'
+import DangTin from '../pages/user/dangtin'
 
 
 
@@ -40,6 +42,9 @@ const userRoutes = [
     { path: "/naptien", component: NapTien, layout:AccountLayout },
     { path: "/thanhcong", component: ThanhCong, layout:AccountLayout },
     { path: "/lichsunap", component: LichSuNap, layout:AccountLayout },
+    { path: "/lichsutru", component: LichSuTru, layout:AccountLayout },
+    { path: "/taikhoan", component: taikhoan, layout:AccountLayout },
+    { path: "/dangtin", component: DangTin, layout:AccountLayout },
 ];
 
 

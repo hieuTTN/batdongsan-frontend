@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import $ from 'jquery'; 
 import Swal from 'sweetalert2'
 import {getMethod,postMethodPayload, postMethod, deleteMethod} from '../../services/request';
-import {formatMoney} from '../../services/money';
+import {formatMoney, formatPrice} from '../../services/money';
 
 
 var size = 10
@@ -105,9 +105,7 @@ const AdminRealEstate = ()=>{
                     <div class="search-container">
                         <select onChange={filterBds} id='trangthai' class="form-control">
                             <option value="">Tất cả trạng thái</option>
-                            <option value='DANG_CHO_DUYET'>Đang chờ duyệt</option>
                             <option value='VI_PHAM'>Vi Phạm</option>
-                            <option value='DA_HET_HAN'>Đã hết hạn</option>
                             <option value='DANG_HIEN_THI'>Đang hiển thị</option>
                         </select>
                     </div>
@@ -126,6 +124,7 @@ const AdminRealEstate = ()=>{
                                 <th>Ảnh</th>
                                 <th>Tiêu đề</th>
                                 <th>Ngày tạo</th>
+                                <th>Ngày hết hạn</th>
                                 <th>Giá tiền</th>
                                 <th>Pháp lý</th>
                                 <th>Địa chỉ</th>
@@ -142,7 +141,8 @@ const AdminRealEstate = ()=>{
                                     <td><img src={item.image} className='imgtable'/></td>
                                     <td>{item.title}</td>
                                     <td>{item.createdTime}, {item.createdDate}</td>
-                                    <td>{formatMoney(item.price)}</td>
+                                    <td>{item.expiredDate}</td>
+                                    <td>{formatPrice(item.price)}</td>
                                     <td>{item.juridical?.name}</td>
                                     <td>{item.wards?.name}<br/>{item.wards?.districts.name}<br/>{item.wards?.districts.province.name}</td>
                                     <td>{
@@ -153,9 +153,7 @@ const AdminRealEstate = ()=>{
                                     </td>
                                     <td>
                                         <select onChange={(e)=>updateStatus(e, item.id)} className='form-control' style={{minWidth:'100px'}}>
-                                            <option value='DANG_CHO_DUYET' selected={item.status =='DANG_CHO_DUYET'}>Đang chờ duyệt</option>
                                             <option value='VI_PHAM' selected={item.status =='VI_PHAM'}>Vi Phạm</option>
-                                            <option value='DA_HET_HAN' selected={item.status =='DA_HET_HAN'}>Đã hết hạn</option>
                                             <option value='DANG_HIEN_THI' selected={item.status =='DANG_HIEN_THI'}>Đang hiển thị</option>
                                         </select>
                                     </td>

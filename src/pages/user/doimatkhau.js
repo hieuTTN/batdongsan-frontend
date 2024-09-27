@@ -16,7 +16,7 @@ async function handleChangePass(event) {
         oldPass: event.target.elements.oldpass.value,
         newPass: event.target.elements.newpass.value
     };
-    const res = await postMethodPayload('/api/user/all/change-password', payload);
+    const res = await postMethodPayload('/api/user/user/change-password', payload);
     if (res.status == 417) {
         var result = await res.json()
         if (result.errorCode == 300) {

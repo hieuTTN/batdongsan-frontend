@@ -10,6 +10,7 @@ export const HeaderContext = createContext();
 var token = localStorage.getItem("token");
 function SideBar (){
   const [user, setUser] = useState({});
+  const [address, setAddress] = useState([]);
   const [totalRealEstate, setTotalRealEstate] = useState(0);
   useEffect(()=>{
     const getUser = async() =>{
