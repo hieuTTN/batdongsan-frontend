@@ -24,6 +24,10 @@ function Header({ children }){
         return <></>
     }
 
+    var user = window.localStorage.getItem("user")
+    if(user != null){
+        user = JSON.parse(user);
+    }
 
     function openClose(){
         document.getElementById("sidebar").classList.toggle("toggled");
@@ -74,16 +78,16 @@ function Header({ children }){
                         <i class="fa fa-list"></i> Danh mục
                     </a>
                 </li>
-                <li class="nav-item">
+                <li className={isActive(["/admin/real-estate", "/admin/add-real-estate"])}>
                     <a href="#dashboardSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white text-decoration-none">
                         <i class="fa fa-home"></i> Tin đăng BĐS
                     </a>
                     <ul class="collapse list-unstyleds" id="dashboardSubmenu">
                         <li class="nav-item">
-                            <a href="#" class="text-white text-decoration-none ps-4"><i class="fa fa-list"></i> Danh sách tin đăng</a>
+                            <a href="real-estate" class="text-white text-decoration-none ps-4"><i class="fa fa-list"></i> Danh sách tin đăng</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="text-white text-decoration-none ps-4"><i class="fa fa-plus"></i> Đăng tin</a>
+                            <a href="add-real-estate" class="text-white text-decoration-none ps-4"><i class="fa fa-plus"></i> Đăng tin</a>
                         </li>
                     </ul>
                 </li>
@@ -138,12 +142,12 @@ function Header({ children }){
             
                     <div class="dropdown ms-3">
                         <a class="dropdown-toggle d-flex align-items-center text-decoration-none" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="navbar-text me-2">Thomas Anree</span>
-                            <img src="https://via.placeholder.com/30" class="rounded-circle" alt="User Avatar"/>
+                            <span class="navbar-text me-2">{user?.username}</span>
+                            {/* <img src={user?.avatar} class="rounded-circle" alt="User Avatar"/> */}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="#">Update Info</a></li>
-                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                            <li onClick={logout}><a class="dropdown-item" href="#">Logout</a></li>
                         </ul>
                     </div>
                 </div>

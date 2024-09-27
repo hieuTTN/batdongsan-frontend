@@ -42,6 +42,9 @@ function DoiMatKhau(){
   
     return(
         <>
+            <div class="ghichuql">
+                <p>Cập nhật mật khẩu</p>
+            </div>
             <div class="headeraccount">
                 <span class="fontyel"></span><span class="smyl"> Để bảo mật tài khoản, vui lòng không chia sẻ mật khẩu cho người khác</span>
             </div>

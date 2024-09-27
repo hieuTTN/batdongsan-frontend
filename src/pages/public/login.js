@@ -42,7 +42,7 @@ async function processLogin(user, token) {
     if (user.authorities.name === "ROLE_ADMIN") {
         window.location.href = 'admin/index';
     }
-    if (user.authorities.name === "CuROLE_ADMINstomer") {
+    if (user.authorities.name === "ROLE_USER") {
         window.location.href = '/';
     }
 }

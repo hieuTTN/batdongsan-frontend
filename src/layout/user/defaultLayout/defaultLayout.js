@@ -6,7 +6,7 @@ function DefaultLayout({children}){
     return (
         <div>
             <Headers/>
-            <div className="main-content-web">
+            <div className="contentmain">
             {children}
             </div>
             <Footer/>

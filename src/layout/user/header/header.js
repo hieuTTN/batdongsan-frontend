@@ -30,7 +30,7 @@ if(token != null){
                 <li><a class="dropdown-item" href="tincuatoi"><i class="fa fa-list"></i> Quản lý tin đăng</a></li>
                 <li><a class="dropdown-item" href="taikhoan"><i class="fa fa-user"></i> Thay đổi thông tin cá nhân</a></li>
                 <li><a class="dropdown-item" href="doimatkhau"><i class="fa fa-key"></i> Đổi mật khẩu</a></li>
-                <li><a class="dropdown-item" href="naptien"><i class="fa fa-money"></i> Nạp tiền</a></li>
+                <li><a class="dropdown-item" href="naptien"><i class="fa fa-dollar"></i> Nạp tiền</a></li>
                 <li><a class="dropdown-item" href="yeuthich"><i class="fa fa-heart"></i> Yêu thích</a></li>
                 <div class="dropdown-divider"></div>
                 <li onClick={logout} ><a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>

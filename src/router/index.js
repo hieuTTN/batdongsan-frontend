@@ -1,5 +1,6 @@
 import layoutAdmin from '../layout/admin/Layout'
 import layoutLogin from '../layout/user/loginlayout/login'
+import AccountLayout from '../layout/user/accountLayout/accountLayout'
 
 //admin
 import homeAdmin from '../pages/admin/index'
@@ -9,6 +10,7 @@ import AdminBlog from '../pages/admin/blog'
 import AdminAddBlog from '../pages/admin/addblog'
 import AdminHistoryPay from '../pages/admin/historypay'
 import AdminDeductionHistory from '../pages/admin/deductionhistory'
+import AdminRealEstate from '../pages/admin/realestate'
 
 
 
@@ -18,6 +20,11 @@ import index from '../pages/public/index'
 
 //user
 import taikhoan from '../pages/user/taikhoan'
+import DoiMatKhau from '../pages/user/doimatkhau'
+import BaoGia from '../pages/user/baogia'
+import NapTien from '../pages/user/naptien'
+import ThanhCong from '../pages/user/thanhcong'
+import LichSuNap from '../pages/user/lichsunap'
 
 
 
@@ -28,7 +35,11 @@ const publicRoutes = [
 ];
 
 const userRoutes = [
-    { path: "/tai-khoan", component: taikhoan },
+    { path: "/doimatkhau", component: DoiMatKhau, layout:AccountLayout },
+    { path: "/baogia", component: BaoGia, layout:AccountLayout },
+    { path: "/naptien", component: NapTien, layout:AccountLayout },
+    { path: "/thanhcong", component: ThanhCong, layout:AccountLayout },
+    { path: "/lichsunap", component: LichSuNap, layout:AccountLayout },
 ];
 
 
@@ -40,6 +51,7 @@ const adminRoutes = [
     { path: "/admin/add-blog", component: AdminAddBlog, layout: layoutAdmin },
     { path: "/admin/history-pay", component: AdminHistoryPay, layout: layoutAdmin },
     { path: "/admin/deduction-history", component: AdminDeductionHistory, layout: layoutAdmin },
+    { path: "/admin/real-estate", component: AdminRealEstate, layout: layoutAdmin },
 ];
 
 
