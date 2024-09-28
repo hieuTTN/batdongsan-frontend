@@ -27,6 +27,7 @@ import ThanhCong from '../pages/user/thanhcong'
 import LichSuNap from '../pages/user/lichsunap'
 import LichSuTru from '../pages/user/lichsutru'
 import DangTin from '../pages/user/dangtin'
+import TinCuaToi from '../pages/user/tincuatoi'
 
 
 
@@ -45,6 +46,7 @@ const userRoutes = [
     { path: "/lichsutru", component: LichSuTru, layout:AccountLayout },
     { path: "/taikhoan", component: taikhoan, layout:AccountLayout },
     { path: "/dangtin", component: DangTin, layout:AccountLayout },
+    { path: "/tincuatoi", component: TinCuaToi, layout:AccountLayout },
 ];
 
 
