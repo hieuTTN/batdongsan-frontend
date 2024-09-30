@@ -83,6 +83,32 @@ function TinCuaToi(){
         setExtendedDate(currentDate.toLocaleDateString());
     };
     
+    async function extendDay() {
+        if(selectedDay == null){
+            toast.warning("Hãy chọn số ngày muốn gia hạn");
+            return;
+        }
+        var response = await postMethod("/api/real-estate/user/extend-expired-date?id="+realestate.id+'&numDay='+selectedDay)
+        if(response.status < 300){
+            Swal.fire({
+                title: "Thông báo",
+                text: "Gia hạn tin thành công",
+                preConfirm: () => {
+                    window.location.reload();
+                }
+            });
+        }
+        else{
+            if(response.status == 417){
+                var result = await response.json();
+                toast.error(result.defaultMessage)
+            }
+            else{
+                toast.error("Có lỗi xảy ra")
+            }
+        }
+    }
+
     return(
         <>
              <div class="blockcontent">
@@ -129,7 +155,7 @@ function TinCuaToi(){
                                     <td>{item.expiredDate}<br/><a onClick={()=>setRealestate(item)} data-bs-toggle="modal" data-bs-target="#staticBackdrop" href='#'>Gia hạn</a></td>
                                     <td>{item.status}</td>
                                     <td className='sticcol'>
-                                        <a href={"add-blog?id="+item.id} class="edit-btn"><i className='fa fa-edit'></i></a>
+                                        <a href={"dangtin?id="+item.id} class="edit-btn"><i className='fa fa-edit'></i></a>
                                         <button onClick={()=>deleteRealEstate(item.id)} class="delete-btn"><i className='fa fa-trash'></i></button>
                                     </td>
                                 </tr>
@@ -162,8 +188,9 @@ function TinCuaToi(){
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                    <div className="container mt-4">
+                    <div className="">
                         <h4>Gia hạn thêm ngày</h4>
+                        <span>Gia hạn 7 ngày bạn sẽ mất 30.000đ, 14 ngày sẽ mất 60.000đ,...</span>
                         <div className="btn-group-toggle">
                             {[7, 14, 21, 28].map((day) => (
                             <label
@@ -190,7 +217,7 @@ function TinCuaToi(){
                     </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Đồng ý</button>
+                        <button onClick={extendDay} type="button" class="btn btn-primary">Đồng ý</button>
                     </div>
                     </div>
                 </div>

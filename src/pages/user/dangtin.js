@@ -8,7 +8,7 @@ import { Parser } from "html-to-react";
 import ReactPaginate from 'react-paginate';
 import {toast } from 'react-toastify';
 import Select from 'react-select';
-import {getMethod, postMethod, postMethodPayload, uploadMultipleFile, uploadSingleFile} from '../../services/request';
+import {deleteMethod, getMethod, postMethod, postMethodPayload, uploadMultipleFile, uploadSingleFile} from '../../services/request';
 import Swal from 'sweetalert2'
 import { formatMoney } from '../../services/money';
 import { Editor } from '@tinymce/tinymce-react';
@@ -85,13 +85,36 @@ function DangTin(){
     const [province, setProvince] = useState([]);
     const [districs, setDistrics] = useState([]);
     const [wards, setWard] = useState([]);
+
     useEffect(()=>{
+        const fetchData = async () => {
+
+        }
         const getUser = async() =>{
             var response = await postMethod("/api/user/user/user-logged")
             var result = await response.json();
             setUser(result)
         };
         getUser();
+        const getRealState = async() =>{
+            var uls = new URL(document.URL)
+            var id = uls.searchParams.get("id");
+            if(id != null){
+                var response = await getMethod("/api/real-estate/public/find-by-id?id="+id)
+                var result = await response.json();
+                setRealestate(result)
+                linkbanner = result.image
+                description = result.description
+                setDistrics(result.wards.districts.province.districts)
+                for(var i=0; i< result.wards.districts.province.districts.length; i++){
+                    if(result.wards.districts.province.districts[i].id == result.wards.districts.id){
+                        setWard(result.wards.districts.province.districts[i].wards);
+                        break;
+                    }
+                }
+            }
+        };
+        getRealState();
         const getAddress = async() =>{
             var response = await getMethod("/api/address/public/province")
             var result = await response.json();
@@ -138,9 +161,21 @@ function DangTin(){
         document.getElementById("choosefile").click();
     }
 
-
-
-    
+    async function deleteImage(id) {
+        var con = window.confirm("Bạn muốn xóa ảnh này?");
+        if (con == false) {
+            return;
+        }
+        const response = await deleteMethod('/api/Real-Estate-Image/user/delete?id=' + id)
+        if (response.status < 300) {
+            toast.success("xóa ảnh thành công!");
+            document.getElementById("imgdathem" + id).style.display = 'none';
+        }
+        if (response.status == 417) {
+            var result = await response.json()
+            toast.warning(result.defaultMessage);
+        }
+    }  
 return(
 <>
     <div class="blockcontent">
@@ -161,7 +196,7 @@ return(
                         <select id="tinh" class="form-control" onChange={loadHuyen} data-live-search="true">
                             <option disabled selected>Chọn tỉnh thành</option>
                             {province.map((item=>{
-                                return <option value={item.id}>{item.name}</option>
+                                return <option selected={realestate.wards?.districts.province.id == item.id} value={item.id}>{item.name}</option>
                             }))}
                         </select>
                     </div>
@@ -170,7 +205,7 @@ return(
                         <select id="huyen" class="form-control" onChange={loadXa}>
                             <option disabled selected>Chọn quận/huyện</option>
                             {districs.map((item=>{
-                                return <option value={item.id}>{item.name}</option>
+                                return <option selected={realestate.wards?.districts.id == item.id} value={item.id}>{item.name}</option>
                             }))}
                         </select>
                     </div>
@@ -178,47 +213,54 @@ return(
                         <label>Chọn xã</label>
                         <select id="xa" class="form-control" onchange="hienThiDiaChiDaChon()">
                             {wards.map((item=>{
-                                return <option value={item.id}>{item.name}</option>
+                                return <option selected={realestate.wards?.id == item.id} value={item.id}>{item.name}</option>
                             }))}
                         </select>
                     </div>
                 </div>
-                <label>Địa chỉ đã chọn</label>
-                <input id="dcdachon" readonly disabled type="text" class="form-control"/>
                 <label>Link google map <span data-bs-toggle="modal" data-bs-target="#hdganlink" class="pointer">(Hướng dẫn gắn link)</span></label>
-                <input id="linkggmap" type="text" class="form-control"/>
+                <input defaultValue={realestate?.linkMap} id="linkggmap" type="text" class="form-control"/>
                 
                 <br/><h3>Thông tin mô tả</h3>
                 <label>Danh mục tin</label>
                 <select id="danhmuclist" class="form-control" multiple>
                     {categories.map((item=>{
-                        return <option value={item.id}>{item.name}</option>
+                        var checked = false;
+                        if(realestate.realEstateCategories != undefined){
+                            for(var j=0; j< realestate.realEstateCategories.length; j++){
+                                if(realestate.realEstateCategories[j].category.id == item.id){
+                                    checked = true;
+                                    break;
+                                }
+                            }   
+                        }
+                        return <option selected={checked} value={item.id}>{item.name}</option>
                     }))}
                 </select>
                 <label>Tiêu đề</label>
-                <input id="tieude" type="text" class="form-control"/>
+                <input defaultValue={realestate?.title} id="tieude" type="text" class="form-control"/>
                 <label>Tên dự án (nếu có)</label>
-                <input id="tenduan" type="text" class="form-control"/>
+                <input defaultValue={realestate?.projectName} id="tenduan" type="text" class="form-control"/>
                 <label>Giá tiền</label>
-                <input id="giatien" type="text" class="form-control"/>
+                <input defaultValue={realestate?.price} id="giatien" type="text" class="form-control"/>
                 <div class="row">
                     <div class="col-3">
                         <label>Diện tích (m<sup>2</sup>)</label><br/>
-                        <input id="dientich" type="number" class="form-control"/>
+                        <input defaultValue={realestate?.acreage} id="dientich" type="number" class="form-control"/>
                     </div>
                     <div class="col-3">
                         <label>Số phòng ngủ</label><br/>
-                        <input id="sophong" type="number" class="form-control"/>
+                        <input defaultValue={realestate?.roomNumber} id="sophong" type="number" class="form-control"/>
                     </div>
                     <div class="col-3">
                         <label>Số phòng vệ sinh</label><br/>
-                        <input id="sovesinh" type="number" class="form-control"/>
+                        <input defaultValue={realestate?.toiletNumber} id="sovesinh" type="number" class="form-control"/>
                     </div>
                     <div class="col-3">
                         <label>Pháp lý</label><br/>
                         <select class="form-control" id="phaply">
                             {phapLy.map((item=>{
-                                return <option value={item.id}>{item.name}</option>
+                                return <option selected={item.id == realestate.juridical?.id} value={item.id}>{item.name}</option>
                             }))}
                         </select>
                     </div>
@@ -226,21 +268,21 @@ return(
                 <div class="row">
                     <div class="col-4">
                         <label>Diện tích đường vào</label><br/>
-                        <input id="facade" type="number" class="form-control"/>
+                        <input defaultValue={realestate?.facade} id="facade" type="number" class="form-control"/>
                     </div>
                     <div class="col-4">
                         <label>Diện tích mặt tiền</label><br/>
-                        <input id="road" type="number" class="form-control"/>
+                        <input defaultValue={realestate?.road} id="road" type="number" class="form-control"/>
                     </div>
                     <div class="col-4">
                         <label>Số tầng</label><br/>
-                        <input id="numFloors" type="number" class="form-control"/>
+                        <input defaultValue={realestate?.numFloors} id="numFloors" type="number" class="form-control"/>
                     </div>
                 </div>
                 <br/><label>Mô tả</label>
                 <Editor name='editor' tinymceScriptSrc={'https://cdn.tiny.cloud/1/f6s0gxhkpepxkws8jawvfwtj0l9lv0xjgq1swbv4lgcy3au3/tinymce/6/tinymce.min.js'}
                                         onInit={(evt, editor) => editorRef.current = editor} 
-                                        initialValue={realestate==null?'':realestate.content}
+                                        initialValue={realestate==null?'':realestate.description}
                                         onEditorChange={handleEditorChange}/>
             </div>
             <div class="col-md-6 chooseImage">
@@ -254,7 +296,7 @@ return(
                         <h3>Chọn ảnh</h3>
                         <label>Ảnh bìa</label>
                         <input id="anhbiass" type="file" class="form-control"/>
-                        <br/><img style={{width:"100px"}} id="anhendathem"/>
+                        <br/><img style={{width:"100px"}} src={realestate.image} id="anhendathem"/>
                         <br/>
                         <div class="row">
                             <div class="col-md-12">
@@ -271,14 +313,17 @@ return(
 
                                 </div>
                             </div>
-                            <div class="row" id="divanhdathem" style={{display:"none"}}>
+                            <div id="divanhdathem" className={realestate.realEstateImages==undefined?'disnone':'row'}>
                                 <div class="col-sm-12">
                                     <h4 style={{marginTop:"30px"}}>Ảnh đã thêm</h4>
                                 </div>
-                                <div class="col-md-4">
-                                    <img style={{width:"90px"}} src="../image/detail.jpeg" class="image-upload"/>
-                                    <button class="btn btn-danger form-control">Xóa ảnh</button>
-                                </div>
+                                {realestate.realEstateImages==undefined?'': 
+                                    realestate.realEstateImages.map((item=>{
+                                        return <div id={"imgdathem"+item.id} class="col-md-3 col-sm-6 col-6">
+                                        <img  src={item.image} class="image-upload"/>
+                                        <button onClick={()=>deleteImage(item.id)} type='button' class="btn btn-danger form-control">Xóa ảnh</button>
+                                    </div>
+                                })) }
                             </div>
                         </div>
                     </div>

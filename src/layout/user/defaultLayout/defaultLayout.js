@@ -1,6 +1,5 @@
 import Headers from "../header/header";
 import Footer from "../footer/footer"
-import ChatFrame from "../../../pages/user/chat"
 
 function DefaultLayout({children}){
     return (
@@ -10,7 +9,6 @@ function DefaultLayout({children}){
             {children}
             </div>
             <Footer/>
-            <ChatFrame/>
         </div>
     );
 }

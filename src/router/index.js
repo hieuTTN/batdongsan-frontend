@@ -17,6 +17,8 @@ import AdminRealEstate from '../pages/admin/realestate'
 //public
 import login from '../pages/public/login'
 import index from '../pages/public/index'
+import TinTuc from '../pages/public/tintuc'
+import ChiTietBaiViet from '../pages/public/chitietbaiviet'
 
 //user
 import taikhoan from '../pages/user/taikhoan'
@@ -28,6 +30,7 @@ import LichSuNap from '../pages/user/lichsunap'
 import LichSuTru from '../pages/user/lichsutru'
 import DangTin from '../pages/user/dangtin'
 import TinCuaToi from '../pages/user/tincuatoi'
+import ChatUser from '../pages/user/chat'
 
 
 
@@ -35,6 +38,8 @@ const publicRoutes = [
     { path: "/", component: index},
     { path: "/index", component: index},
     { path: "/login", component: login, layout: layoutLogin },
+    { path: "/tin-tuc", component: TinTuc },
+    { path: "/chitietbaiviet", component: ChiTietBaiViet },
 ];
 
 const userRoutes = [
@@ -47,6 +52,7 @@ const userRoutes = [
     { path: "/taikhoan", component: taikhoan, layout:AccountLayout },
     { path: "/dangtin", component: DangTin, layout:AccountLayout },
     { path: "/tincuatoi", component: TinCuaToi, layout:AccountLayout },
+    { path: "/chat", component: ChatUser, layout:AccountLayout },
 ];
 
 

@@ -76,6 +76,7 @@ return(
             <li><a href="#" onClick={logout} class="nav-link"> Đăng xuất</a></li>
         </ul>
     </li>
+    <li><a href="chat" class="nav-link"><i class="fas fa-message"></i> Chat</a></li>
     <li><a href="baogia" class="nav-link"><i class="fas fa-dollar-sign"></i> Báo giá</a></li>
     <li><a href="huongdan" class="nav-link"><i class="fa fa-newspaper"></i> Hướng dẫn</a></li>
   </ul>

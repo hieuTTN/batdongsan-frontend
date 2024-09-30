@@ -1,6 +1,5 @@
 import Headers from "../header/header";
 import SideBar from "../sidebar/sidebar"
-import ChatFrame from "../../../pages/user/chat"
 
 function AccountLayout({children}){
     
@@ -30,7 +29,6 @@ function AccountLayout({children}){
                     </div>
                 </div>
             </div>
-            <ChatFrame/>
         </div>
     );
 }
