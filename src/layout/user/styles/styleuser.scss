@@ -1540,3 +1540,16 @@
 #listuserchat tr{
     height: 30px;
 }
+@media (max-width: 768px) {
+    .custom-container-search {
+        width: 100% !important;  /* Đặt độ rộng 100% khi trên màn hình điện thoại */
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    .custom-container-search .selectsearch {
+        margin-top: 10px !important;
+    }
+    .select-container {
+        margin-top: 10px; /* Thiết lập margin-top */
+    }
+}

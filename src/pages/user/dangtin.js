@@ -87,9 +87,6 @@ function DangTin(){
     const [wards, setWard] = useState([]);
 
     useEffect(()=>{
-        const fetchData = async () => {
-
-        }
         const getUser = async() =>{
             var response = await postMethod("/api/user/user/user-logged")
             var result = await response.json();

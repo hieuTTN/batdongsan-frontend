@@ -13,7 +13,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
-
+import SearchComponent from './searchcomponent';
 
 var sizepro = 20
 function Home(){
@@ -30,7 +30,9 @@ function Home(){
     }, []);
   
     return(
-        <></>
+        <>
+            <SearchComponent/>
+        </>
     );
 }
 
