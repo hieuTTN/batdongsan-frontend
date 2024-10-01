@@ -19,6 +19,7 @@ import login from '../pages/public/login'
 import index from '../pages/public/index'
 import TinTuc from '../pages/public/tintuc'
 import ChiTietBaiViet from '../pages/public/chitietbaiviet'
+import ChiTietTinDang from '../pages/public/chitiettindang'
 
 //user
 import taikhoan from '../pages/user/taikhoan'
@@ -40,6 +41,7 @@ const publicRoutes = [
     { path: "/login", component: login, layout: layoutLogin },
     { path: "/tin-tuc", component: TinTuc },
     { path: "/chitietbaiviet", component: ChiTietBaiViet },
+    { path: "/chi-tiet-tin-dang", component: ChiTietTinDang },
 ];
 
 const userRoutes = [

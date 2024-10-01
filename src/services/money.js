@@ -19,5 +19,21 @@ function formatPrice(price){
     }
 }
 
+function formatPriceLT(price){
+    if(price == 0){
+      return "Giá thỏa thuận";
+    }
+    if(price.length <= 9){
+        var num = price / 1000000
+        num = num.toFixed(1)
+        return num + " triệu";
+    }
+    if(price. length >9){
+        var num = price / 1000000000
+        num = num.toFixed(1)
+        return num  + " tỉ";
+    }
+  }
 
-export {formatMoney, formatPrice}
+
+export {formatMoney, formatPrice, formatPriceLT}

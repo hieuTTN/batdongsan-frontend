@@ -1546,6 +1546,12 @@
         padding-left: 15px !important;
         padding-right: 15px !important;
     }
+    .containerdetail{
+        width: 100% !important;  /* Đặt độ rộng 100% khi trên màn hình điện thoại */
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        margin-top: 0px;
+    }
     .custom-container-search .selectsearch {
         margin-top: 10px !important;
     }
