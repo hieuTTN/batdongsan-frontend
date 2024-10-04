@@ -84,7 +84,7 @@ function Header({ children }){
                     </a>
                     <ul class="collapse list-unstyleds" id="dashboardSubmenu">
                         <li class="nav-item">
-                            <a href="tincuatoi" class="text-white text-decoration-none ps-4"><i class="fa fa-list"></i> Danh sách tin đăng</a>
+                            <a href="real-estate" class="text-white text-decoration-none ps-4"><i class="fa fa-list"></i> Danh sách tin đăng</a>
                         </li>
                         <li class="nav-item">
                             <a href="add-real-estate" class="text-white text-decoration-none ps-4"><i class="fa fa-plus"></i> Đăng tin</a>

@@ -20,6 +20,16 @@ var sizepro = 1
 var url = '';
 function Home(){
 
+    var objs = {
+        tinh:{value:0},
+        huyen:{value:[]},
+        duan:{value:""},
+        mucgia:{value:""},
+        dientich:{value:""},
+        category:{value:[]},
+    }
+
+    const [objSearch, setObjSearch] = useState(objs);
     const [itemType, setItemType] = useState([]);
     const [itemNews, setItemNews] = useState([]);
     const [newBlogs, setNewBlogs] = useState([]);
@@ -63,8 +73,8 @@ function Home(){
 
     return(
         <>
-            <SearchComponent/>
-            <div className='container'>
+            <SearchComponent initialValues={objSearch}/>
+            <div className='container containercustom'>
                 <div class="blogindex col-sm-8">
                     <div class="topblogindex">
                         <h3>Tin nổi bật</h3>
@@ -88,7 +98,7 @@ function Home(){
                 </div>
             </div>
             <div class="divbdsindex">
-            <div className='container'>
+            <div className='container containercustom'>
             <h3>Bất động sản dành cho bạn</h3>
                 <div class="row" id="dsbdstrangchu">
                 {realEstate.map((item=>{

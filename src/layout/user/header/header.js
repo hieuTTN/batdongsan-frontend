@@ -55,7 +55,7 @@ return(
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 listitemmenu" id="listitemmenu">
             <li class="nav-item"><a class="nav-link menucha" href="/">Trang chủ</a></li>
             {categories.map((item=>{
-              return  <li class="nav-item"><a class="nav-link menucha" href="baiviet">{item.name}</a></li>
+              return  <li class="nav-item"><a class="nav-link menucha" href={'timkiem?category='+item.id}>{item.name}</a></li>
             }))}
             <li class="nav-item"><a class="nav-link menucha" href="tin-tuc">Tin tức</a></li>
         </ul>
@@ -63,7 +63,7 @@ return(
             {auth}
         </div>
         <div class="d-flexs">
-            <button onclick="window.location.href='dangtin'" class="btndangtinmoi">Đăng tin</button>
+            <button onClick={()=>window.location.href='dangtin'} class="btndangtinmoi">Đăng tin</button>
         </div>
         </div>
     </nav>

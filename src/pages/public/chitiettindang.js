@@ -2,7 +2,7 @@ import Footer from '../../layout/user/footer/footer'
 import zalo from '../../assest/images/zalo.png'
 import banner1 from '../../assest/images/banner1.png'
 import banner2 from '../../assest/images/banner2.jpg'
-import {getMethod} from '../../services/request'
+import {getMethod, postMethod} from '../../services/request'
 import {formatPrice, formatPriceLT} from '../../services/money'
 import {formatDate} from '../../services/dateservice'
 import { useState, useEffect } from 'react'
@@ -20,6 +20,7 @@ import ReportRealEstate from './report';
 
 function ChiTietTinDang(){
     const [item, setItem] = useState(null);
+    const [checkFavorite, setCheckFavorite] = useState(false);
     const [realEstateSamePrice, setRealEstateSamePrice] = useState([]);
     useEffect(()=>{
         const getItem = async() =>{
@@ -36,8 +37,46 @@ function ChiTietTinDang(){
             setRealEstateSamePrice(result)
         };
         getItem();
+        const getCheckFavorite = async() =>{
+            var uls = new URL(document.URL)
+            var id = uls.searchParams.get("id");
+            if(id == null){window.location.href = '/'}
+            var response = await getMethod('/api/favorite/all/check-favorite?id='+id);
+            var result = await response.text();
+            setCheckFavorite(result)
+        };
+        getCheckFavorite();
     }, []);
   
+
+    function copyCurrentUrl() {
+        const currentUrl = window.location.href; // Lấy URL hiện tại
+        navigator.clipboard.writeText(currentUrl) // Sao chép vào clipboard
+          .then(() => {
+            toast.success("URL đã được sao chép");
+          })
+          .catch(err => {
+            console.error('Lỗi khi sao chép URL: ', err);
+          });
+    }
+
+    async function addFavorite() {
+        const response = await postMethod('/api/favorite/all/add?id='+item.id)
+        if (response.status < 300) {
+            var result = await response.text();
+            toast.success(result);
+            var tagi = document.getElementById("yeuthichchitiet")
+            if(tagi.classList.contains("active")){
+                tagi.classList.remove('active');
+            }
+            else{
+                tagi.classList.add('active');
+            }
+        }
+        else {
+            toast.error("Có lỗi xảy ra")
+        }
+    }
 
 
     return(
@@ -70,7 +109,7 @@ function ChiTietTinDang(){
                     </div>
 
                     <div class="diachibdsdetail">
-                        <span id="loaitindang">Bán</span><span> / </span><span id="diachict"> Hưng yên</span>
+                        <span id="loaitindang"></span><span></span><span id="diachict"> {item?.ward.name} / {item?.ward.district.name} / {item?.ward.district.province.name}</span>
                     </div>
                     <h3 class="tieudedetail" id="tieudedetail">{item?.title}</h3>
                     <span class="tenduandetail" id="daxacthucdt"></span>
@@ -88,14 +127,14 @@ function ChiTietTinDang(){
                                 <span class="lbgiamv" id="sotangct">{item ==null?'':item.numFloors == 0 ?'':item.numFloors+' tầng'}</span>
                             </div>
                             <div class="col-sm-6 col-12 thongtinchitiet-right">
-                                <button onclick="copyUrl()" type="button" class="btnempty" data-bs-toggle="tooltip" data-bs-placement="top" title="Chia sẻ">
+                                <button onClick={copyCurrentUrl} type="button" class="btnempty" data-bs-toggle="tooltip" data-bs-placement="top" title="Chia sẻ">
                                     <i class="fa fa-share"></i>
                                 </button>
                                 <button type="button" class="btnempty" data-bs-toggle="tooltip" data-bs-placement="top" title="Báo cáo tin đăng">
                                     <i class="fa fa-warning" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
                                 </button>
                                 <button type="button" id="btnyeuthichct" class="btnempty" data-bs-toggle="tooltip" data-bs-placement="top" title="Yêu thích">
-                                    <i id="yeuthichchitiet" class="fa fa-heart heartdetail active"></i>
+                                    <i onClick={addFavorite} id="yeuthichchitiet" className={checkFavorite=="false"?'fa fa-heart heartdetail':'fa fa-heart heartdetail active'}></i>
                                 </button>
                             </div>
                         </div>

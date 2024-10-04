@@ -20,6 +20,7 @@ import index from '../pages/public/index'
 import TinTuc from '../pages/public/tintuc'
 import ChiTietBaiViet from '../pages/public/chitietbaiviet'
 import ChiTietTinDang from '../pages/public/chitiettindang'
+import TimKiem from '../pages/public/timkiem'
 
 //user
 import taikhoan from '../pages/user/taikhoan'
@@ -32,6 +33,7 @@ import LichSuTru from '../pages/user/lichsutru'
 import DangTin from '../pages/user/dangtin'
 import TinCuaToi from '../pages/user/tincuatoi'
 import ChatUser from '../pages/user/chat'
+import TinYeuThich from '../pages/user/tinyeuthich'
 
 
 
@@ -42,6 +44,7 @@ const publicRoutes = [
     { path: "/tin-tuc", component: TinTuc },
     { path: "/chitietbaiviet", component: ChiTietBaiViet },
     { path: "/chi-tiet-tin-dang", component: ChiTietTinDang },
+    { path: "/timkiem", component: TimKiem },
 ];
 
 const userRoutes = [
@@ -55,6 +58,7 @@ const userRoutes = [
     { path: "/dangtin", component: DangTin, layout:AccountLayout },
     { path: "/tincuatoi", component: TinCuaToi, layout:AccountLayout },
     { path: "/chat", component: ChatUser, layout:AccountLayout },
+    { path: "/yeuthich", component: TinYeuThich, layout:AccountLayout },
 ];
 
 
