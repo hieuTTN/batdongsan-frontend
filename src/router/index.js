@@ -11,6 +11,9 @@ import AdminAddBlog from '../pages/admin/addblog'
 import AdminHistoryPay from '../pages/admin/historypay'
 import AdminDeductionHistory from '../pages/admin/deductionhistory'
 import AdminRealEstate from '../pages/admin/realestate'
+import AdminReport from '../pages/admin/report'
+import AdminThongbao from '../pages/admin/thongbao'
+import ThongKeAdmin from '../pages/admin/thongke'
 
 
 
@@ -71,6 +74,9 @@ const adminRoutes = [
     { path: "/admin/history-pay", component: AdminHistoryPay, layout: layoutAdmin },
     { path: "/admin/deduction-history", component: AdminDeductionHistory, layout: layoutAdmin },
     { path: "/admin/real-estate", component: AdminRealEstate, layout: layoutAdmin },
+    { path: "/admin/report", component: AdminReport, layout: layoutAdmin },
+    { path: "/admin/thong-bao", component: AdminThongbao, layout: layoutAdmin },
+    { path: "/admin/thong-ke", component: ThongKeAdmin, layout: layoutAdmin },
 ];
 
 

@@ -2,9 +2,19 @@ import lich from '../../assest/images/lich.png'
 import avatar from '../../assest/images/user.svg'
 import { useState, useEffect } from 'react'
 import { useLocation, Link } from 'react-router-dom';
+import { Client } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
+import { toast } from 'react-toastify';
+import { getMethod, postMethod } from '../../services/request';
+
 function Header({ children }){
      // Ensure useLocation is called at the top level of the component
      const location = useLocation();
+     const [message, setMessage] = useState('');
+     const [chatMessages, setChatMessages] = useState([]);
+     const [client, setClient] = useState(null);
+     const [countNoti, setCountNoti] = useState(0);
+     const [topNoti, setTopNoti] = useState([]);
 
      // Function to check if the current path matches the given pathname
      const isActive = (pathname) => {
@@ -19,9 +29,46 @@ function Header({ children }){
     const [isCssLoaded, setCssLoaded] = useState(false);
     useEffect(()=>{
         import('../admin/layout.scss').then(() => setCssLoaded(true));
+        getCountNoti();
+
+        var userlc = localStorage.getItem("user")
+        var email = JSON.parse(userlc).email
+        const sock = new SockJS('http://localhost:8080/notification-admin');
+        const stompClient = new Client({
+        webSocketFactory: () => sock,
+        onConnect: () => {
+            console.log("WebSocket connected successfully!");
+            stompClient.subscribe('/users/queue/notification', (msg) => {
+                var title = msg.headers.title
+                var content = msg.headers.content
+                var link = msg.headers.link
+                toast.info(content);
+                getCountNoti();
+            });
+        },
+        connectHeaders: {
+            username: email 
+        }
+        });
+        stompClient.activate();
+        setClient(stompClient);
+
+        return () => {
+            stompClient.deactivate();
+        };
     }, []);
     if (!isCssLoaded) {
         return <></>
+    }
+
+    async function getCountNoti() {
+        var response = await getMethod("/api/notification/all/count-noti");
+        var result = await response.text();
+        setCountNoti(result)
+
+        var response = await getMethod("/api/notification/all/top-noti");
+        var result = await response.json();
+        setTopNoti(result)
     }
 
     var user = window.localStorage.getItem("user")
@@ -35,6 +82,19 @@ function Header({ children }){
         document.getElementById("navbarmain").classList.toggle("navbarmainrom");
     }
 
+    async function markNoti() {
+        var con = window.confirm("Xác nhận hành động?");
+        if (con == false) {
+            return;
+        }
+        const response = await postMethod('/api/notification/all/mark-read')
+        if (response.status < 300) {
+            getCountNoti();
+        } else {
+            toast.error("Thất bại");
+        }
+    }
+
     return(
         <div class="d-flex" id="wrapper">
         <nav id="sidebar" class="bg-dark">
@@ -43,7 +103,7 @@ function Header({ children }){
             </div>
             <ul class="list-unstyled components">
                 <li className={isActive("/admin/index")}>
-                    <a href="index" class="text-white text-decoration-none">
+                    <a href="/" class="text-white text-decoration-none">
                         <i class="fa fa-home"></i> Trang chủ
                     </a>
                 </li>
@@ -86,12 +146,9 @@ function Header({ children }){
                         <li class="nav-item">
                             <a href="real-estate" class="text-white text-decoration-none ps-4"><i class="fa fa-list"></i> Danh sách tin đăng</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="add-real-estate" class="text-white text-decoration-none ps-4"><i class="fa fa-plus"></i> Đăng tin</a>
-                        </li>
                     </ul>
                 </li>
-                <li className={isActive(["/admin/history-pay", "/admin/deduction-history","/admin/statistic"])}>
+                <li className={isActive(["/admin/history-pay", "/admin/deduction-history","/admin/thong-ke"])}>
                     <a href="#dashboardSubmenu1" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white text-decoration-none">
                         <i class="fa-solid fa-chart-line"></i> Thống kê
                     </a>
@@ -103,17 +160,17 @@ function Header({ children }){
                             <a href="deduction-history" class="text-white text-decoration-none ps-4"><i class="fa fa-clock"></i> Lịch sử trừ tiền</a>
                         </li>
                         <li class="nav-item">
-                            <a href="statistic" class="text-white text-decoration-none ps-4"><i class="fa fa-chart-line"></i> Doanh thu năm</a>
+                            <a href="thong-ke" class="text-white text-decoration-none ps-4"><i class="fa fa-chart-line"></i> Thống kê</a>
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#eCommerce" class="text-white text-decoration-none">
+                <li className={isActive(["/admin/report"])}>
+                    <a href="report" class="text-white text-decoration-none">
                         <i class="fa fa-flag"></i> Báo cáo
                     </a>
                 </li>
                 <li>
-                    <a href="#eCommerce" class="text-white text-decoration-none">
+                    <a href="#" onClick={logout} class="text-white text-decoration-none">
                         <i class="fa fa-sign-out"></i> Đăng xuất
                     </a>
                 </li>
@@ -128,15 +185,22 @@ function Header({ children }){
                         <a class="nav-link dropdown-toggle position-relative" href="#" role="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-bell"></i>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                4
+                                {countNoti}
                             </span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
-                            <li><a class="dropdown-item" href="#">New comment on your post</a></li>
-                            <li><a class="dropdown-item" href="#">New user registered</a></li>
-                            <li><a class="dropdown-item" href="#">System update available</a></li>
-                            <li><hr class="dropdown-divider"/></li>
-                            <li><a class="dropdown-item" href="#">View all notifications</a></li>
+                            {topNoti.map((item=>{
+                                return <li className='lithongbao'>
+                                        <a class="dropdown-item thongbaonhanh" href={item.link == null || item.link == ""?"#":item.link}>{item.title}
+                                            <span className='timethongbaonhanh'>{(item.createdDate).split("T").join(", ")}</span>
+                                        </a>
+                                        <hr className='hrthongbao'/>
+                                    </li>
+                            }))}
+                            <div className='bottomthongbao'>
+                                <li><a onClick={markNoti} class="dropdown-item" href="#"><i className='fa fa-check'></i> Đánh dấu tất cả là đã đọc</a></li>
+                                <li><a class="dropdown-item" href="thong-bao"><i className='fa fa-eye'></i> Xem tất cả thông báo</a></li>
+                            </div>
                         </ul>
                     </div>
             

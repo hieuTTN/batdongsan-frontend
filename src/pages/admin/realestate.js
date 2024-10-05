@@ -139,7 +139,7 @@ const AdminRealEstate = ()=>{
                                 return  <tr>
                                     <td>{item.id}</td>
                                     <td><img src={item.image} className='imgtable'/></td>
-                                    <td>{item.title}</td>
+                                    <td><a target='_blank' href={'/chi-tiet-tin-dang?id='+item.id} className='pointer'>{item.title}</a></td>
                                     <td>{item.createdTime}, {item.createdDate}</td>
                                     <td>{item.expiredDate}</td>
                                     <td>{formatPrice(item.price)}</td>
@@ -164,7 +164,6 @@ const AdminRealEstate = ()=>{
                                         </label>
                                     </td>
                                     <td class="sticky-col">
-                                        <a href={"add-blog?id="+item.id} class="edit-btn"><i className='fa fa-edit'></i></a>
                                         <button onClick={()=>deleteRealEstate(item.id)} class="delete-btn"><i className='fa fa-trash'></i></button>
                                     </td>
                                 </tr>

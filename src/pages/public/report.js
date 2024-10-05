@@ -28,12 +28,17 @@ function ReportRealEstate(){
     async function guiBaoCao() {
         var uls = new URL(document.URL)
         var id = uls.searchParams.get("id");
+        console.log(selectedNoiDung);
+        var arr = []
+        for(var i=0; i< selectedNoiDung.length; i++){
+            arr.push(selectedNoiDung[i].label)
+        }
         var report = {
             "content": document.getElementById("phanhoikhac").value,
             "fullName":document.getElementById("fullname").value,
             "email":document.getElementById("email").value,
             "phone":document.getElementById("phone").value,
-            "reason":selectedNoiDung.toString,
+            "reason":arr.join(', '),
             "realEstate":{
                 "id":id
             },

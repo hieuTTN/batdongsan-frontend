@@ -149,7 +149,7 @@ function TinCuaToi(){
                                 return <tr>
                                     <td>{item.id}</td>
                                     <td><img className='imgtable' src={item.image}/></td>
-                                    <td>{item.title}</td>
+                                    <td><a className='pointer' target='_blank' href={'chi-tiet-tin-dang?id='+item.id}>{item.title}</a></td>
                                     <td>{formatPrice(item.price)}</td>
                                     <td>{item.createdTime}, {item.createdDate}</td>
                                     <td>{item.expiredDate}<br/><a onClick={()=>setRealestate(item)} data-bs-toggle="modal" data-bs-target="#staticBackdrop" href='#'>Gia hạn</a></td>
